@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="asteroid"
+            type="com.udacity.asteroidradar.pojo.Asteroid" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_margin="@dimen/margin_8"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/codename"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_16"
+            android:text="@{asteroid.codename}"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_1"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="465633 (2009 JR5)" />
+
+        <TextView
+            android:id="@+id/closeApproachDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_8"
+            android:text="@{asteroid.closeApproachDate}"
+            android:textColor="@color/gray_"
+            android:textSize="@dimen/text_size_2"
+            app:layout_constraintStart_toStartOf="@id/codename"
+            app:layout_constraintTop_toBottomOf="@id/codename"
+            tools:text="2015-09-08" />
+
+        <ImageView
+            android:id="@+id/potentiallyHazardous"
+            android:layout_width="@dimen/width_48"
+            android:layout_height="@dimen/width_48"
+            android:layout_margin="@dimen/margin_16"
+            app:statusIcon="@{asteroid.potentiallyHazardous}"
+            tools:src="@drawable/ic_status_potentially_hazardous"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
