@@ -101,7 +101,7 @@ class MainFragment : Fragment() {
         viewModel.asteroidsSuccess.observe(viewLifecycleOwner) {
             Log.d("test","asteroidsM $it")
             it?.let {
-                Log.d("test", "success $it")
+                Log.d("test", "success ${it.size}")
                 adapter.submitList(it)
             }
         }
