@@ -98,7 +98,7 @@ class MainFragment : Fragment() {
     }
 
     private fun observeAsteroidsSuccess() {
-        viewModel.asteroidsSuccess.observe(viewLifecycleOwner) {
+        viewModel.asteroids.observe(viewLifecycleOwner) {
             Log.d("test","asteroidsM $it")
             it?.let {
                 Log.d("test", "success ${it.size}")
@@ -132,9 +132,6 @@ class MainFragment : Fragment() {
         Log.d("test", "msg $msg")
         Toast.makeText(requireContext(), msg, Toast.LENGTH_LONG).show()
     }
-
-
-
 
     override fun onDestroyView() {
         super.onDestroyView()

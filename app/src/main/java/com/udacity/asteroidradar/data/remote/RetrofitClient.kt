@@ -7,6 +7,7 @@ import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
+import java.util.concurrent.TimeUnit
 
 
 object RetrofitClient {
@@ -18,18 +19,17 @@ object RetrofitClient {
             .addConverterFactory(ScalarsConverterFactory.create())
             .addConverterFactory(MoshiConverterFactory.create(moshi))
             .client(myHttpClient())
-           // .addCallAdapterFactory(CoroutineCallAdapterFactory())
-                  // .addCallAdapterFactory(CoroutinesResponseCallAdapterFactory.create())
             .build()
     }
 
     fun getApiService(): ApiService {
         return getInstance().create(ApiService::class.java)
     }
-    fun myHttpClient(): OkHttpClient {
+    private fun myHttpClient(): OkHttpClient {
         val builder: OkHttpClient.Builder = OkHttpClient().newBuilder()
+            .readTimeout(60, TimeUnit.SECONDS)
+            .connectTimeout(60, TimeUnit.SECONDS)
             .addInterceptor(MyInterceptor())
         return builder.build()
     }
-
 }

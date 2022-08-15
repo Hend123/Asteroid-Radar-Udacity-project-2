@@ -1,6 +1,7 @@
 package com.udacity.asteroidradar.data.remote
 
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import com.udacity.asteroidradar.pojo.Asteroid
 import com.udacity.asteroidradar.utils.extensions.getNextSevenDaysFormattedDates
@@ -40,6 +41,7 @@ fun parseAsteroidsJsonResult(jsonResult: JSONObject): ArrayList<Asteroid> {
             }
         }
     }
+    Log.d("testD","parseAsteroidsJsonResult $asteroidList")
     return asteroidList
 }
 

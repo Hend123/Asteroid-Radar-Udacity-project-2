@@ -13,6 +13,6 @@ interface AsteroidDao {
 
     suspend fun insertAsteroid(asteroids: ArrayList<Asteroid>)
 
-    @Query("select * from asteroid_table")
+    @Query("select * from asteroid_table ORDER BY closeApproachDate  ASC")
     fun getAsteroid(): LiveData<List<Asteroid>>
 }

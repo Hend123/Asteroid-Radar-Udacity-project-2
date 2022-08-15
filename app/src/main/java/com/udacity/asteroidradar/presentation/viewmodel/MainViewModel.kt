@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.udacity.asteroidradar.data.remote.parseAsteroidsJsonResult
 import com.udacity.asteroidradar.pojo.Asteroid
+import com.udacity.asteroidradar.pojo.PictureOfDay
 import com.udacity.asteroidradar.repository.AsteroidRepo
 import com.udacity.asteroidradar.utils.Resource
 import kotlinx.coroutines.launch
@@ -22,13 +23,15 @@ class MainViewModel(private val asteroidRepo: AsteroidRepo) : ViewModel() {
     val asteroidsSuccess: LiveData<ArrayList<Asteroid>> = _asteroidsSuccess
     private val _asteroidsError = MutableLiveData("")
     val asteroidsError: LiveData<String> = _asteroidsError
-    private val _asteroids = MutableLiveData<List<Asteroid>>(ArrayList())
-    val asteroids: LiveData<List<Asteroid>> = _asteroids
+    val asteroids: LiveData<List<Asteroid>> = asteroidRepo.getAsteroids()
+    val picToday = MutableLiveData(PictureOfDay())
+
 
     init {
         getAsteroidsAPI()
-       // getAsteroids()
+        getPictureOfDay()
     }
+
 
     private fun getAsteroidsAPI() = viewModelScope.launch {
         when (val asteroids = asteroidRepo.getAsteroidsAPI()) {
@@ -38,21 +41,31 @@ class MainViewModel(private val asteroidRepo: AsteroidRepo) : ViewModel() {
             is Resource.Success -> {
                 _asteroidsLoading.value = false
                 _asteroidsSuccess.value = parseAsteroidsJsonResult(JSONObject(asteroids.data!!))
-                asteroidRepo.insertAsteroid(_asteroidsSuccess.value!!)
 
+                asteroidRepo.insertAsteroid(_asteroidsSuccess.value!!)
             }
             is Resource.Error -> {
                 _asteroidsLoading.value = false
                 _asteroidsError.value = asteroids.message!!
             }
+        }
+    }
 
+    private fun getPictureOfDay() = viewModelScope.launch {
+        when (val _picToday = asteroidRepo.getPictureOfDay()) {
+            is Resource.Loading -> {
+                _asteroidsLoading.value = true
+            }
+            is Resource.Success -> {
+                _asteroidsLoading.value = false
+                picToday.value = _picToday.data
+            }
+            is Resource.Error -> {
+                _asteroidsLoading.value = false
+                _asteroidsError.value = _picToday.message
+            }
         }
 
-    }
-    private fun getAsteroids() = viewModelScope.launch {
-        _asteroids.value = asteroidRepo.getAsteroids().value
-        Log.d("test","_asteroids ${_asteroids.value}")
-        Log.d("test","asteroids ${asteroids.value}")
     }
 }
 

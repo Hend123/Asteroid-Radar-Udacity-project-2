@@ -15,7 +15,7 @@ interface ApiHelper {
     ): Response<String>
 
 
-    suspend fun getPictureOfDayAsync(
+    suspend fun getPictureOfDay(
         apiKey: String = Constants.API_KEY
-    ): Deferred<PictureOfDay>
+    ): Response<PictureOfDay>
 }

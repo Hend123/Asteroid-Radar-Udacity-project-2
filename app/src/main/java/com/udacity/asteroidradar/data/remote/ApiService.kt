@@ -19,7 +19,7 @@ interface ApiService {
     ): Response<String>
 
     @GET("planetary/apod")
-    fun getPictureOfDayAsync(
+    suspend fun getPictureOfDay(
         @Query("api_key") apiKey: String = Constants.API_KEY
-    ): Deferred<PictureOfDay>
+    ): Response<PictureOfDay>
 }

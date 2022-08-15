@@ -2,6 +2,7 @@ package com.udacity.asteroidradar.utils.extensions
 
 
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import com.udacity.asteroidradar.utils.Constants
 import com.udacity.asteroidradar.utils.Constants.LAST_DAY
@@ -22,6 +23,8 @@ fun getNextSevenDaysFormattedDates(): ArrayList<String> {
     }
 //    formattedDateList.add("2015-09-07")
 //    formattedDateList.add("2015-09-08")
+    Log.d("test","formattedDateList $formattedDateList")
+
 
     return formattedDateList
 }
