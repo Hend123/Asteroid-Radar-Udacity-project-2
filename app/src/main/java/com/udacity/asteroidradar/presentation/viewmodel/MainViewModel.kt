@@ -3,15 +3,16 @@ package com.udacity.asteroidradar.presentation.viewmodel
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.udacity.asteroidradar.data.remote.parseAsteroidsJsonResult
 import com.udacity.asteroidradar.pojo.Asteroid
 import com.udacity.asteroidradar.pojo.PictureOfDay
 import com.udacity.asteroidradar.repository.AsteroidRepo
+import com.udacity.asteroidradar.utils.Constants
+import com.udacity.asteroidradar.utils.Constants.LAST_DAY
+import com.udacity.asteroidradar.utils.Constants.TODAY
 import com.udacity.asteroidradar.utils.Resource
+import com.udacity.asteroidradar.utils.extensions.getDates
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 
@@ -23,13 +24,14 @@ class MainViewModel(private val asteroidRepo: AsteroidRepo) : ViewModel() {
     val asteroidsSuccess: LiveData<ArrayList<Asteroid>> = _asteroidsSuccess
     private val _asteroidsError = MutableLiveData("")
     val asteroidsError: LiveData<String> = _asteroidsError
-    val asteroids: LiveData<List<Asteroid>> = asteroidRepo.getAsteroids()
+    var asteroids: LiveData<List<Asteroid>> = MutableLiveData()
     val picToday = MutableLiveData(PictureOfDay())
 
 
     init {
         getAsteroidsAPI()
         getPictureOfDay()
+        getAsteroid()
     }
 
 
@@ -66,6 +68,18 @@ class MainViewModel(private val asteroidRepo: AsteroidRepo) : ViewModel() {
             }
         }
 
+    }
+    fun getAsteroid(){
+        asteroids =  asteroidRepo.getAsteroids()
+    }
+    fun getAsteroidToday(){
+        val dateToday = getDates()[TODAY]
+        Log.d("test","dateToday $dateToday")
+        asteroids =  asteroidRepo.getAsteroidToday(dateToday!!)
+    }
+    fun getAsteroidsWeek(){
+        val dates = getDates()
+        asteroids =  asteroidRepo.getAsteroidsWeek(dates[TODAY]!!,dates[LAST_DAY]!!)
     }
 }
 

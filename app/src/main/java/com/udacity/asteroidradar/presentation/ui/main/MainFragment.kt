@@ -66,14 +66,17 @@ class MainFragment : Fragment() {
                 return when (menuItem.itemId) {
                     R.id.show_all_menu -> {
                         Log.d("test", "show_all_menu")
+                        viewModel. getAsteroidsWeek()
                         true
                     }
                     R.id.show_rent_menu -> {
                         Log.d("test", "show_rent_menu")
+                        viewModel.getAsteroidToday()
                         true
                     }
                     R.id.show_buy_menu -> {
                         Log.d("test", "show_buy_menu")
+                        viewModel.getAsteroid()
                         true
                     }
                     else -> false
@@ -98,6 +101,7 @@ class MainFragment : Fragment() {
     }
 
     private fun observeAsteroidsSuccess() {
+        Log.d("test","here")
         viewModel.asteroids.observe(viewLifecycleOwner) {
             Log.d("test","asteroidsM $it")
             it?.let {

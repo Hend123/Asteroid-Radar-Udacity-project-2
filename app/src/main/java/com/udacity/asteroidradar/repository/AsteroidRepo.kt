@@ -25,9 +25,18 @@ class AsteroidRepo(private val apiHelper: ApiHelper, private val databaseHelper:
     }
 
     fun getAsteroids() = databaseHelper.getAsteroid()
+    fun getAsteroidToday(dateToday: String) = databaseHelper.getAsteroidToday(dateToday)
+
+    fun getAsteroidsWeek(
+        startDate: String,
+        endDate: String
+    ) = databaseHelper.getAsteroidsWeek(startDate, endDate)
+
+    fun deletePreviousDayAsteroids(today: String): Int {
+        return databaseHelper.deletePreviousDayAsteroids(today)
+    }
 
     suspend fun getPictureOfDay(): Resource<PictureOfDay> =
         safeApiCall { apiHelper.getPictureOfDay() }
-
 
 }

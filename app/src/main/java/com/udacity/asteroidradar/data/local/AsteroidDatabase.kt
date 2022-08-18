@@ -12,13 +12,11 @@ import com.udacity.asteroidradar.pojo.Asteroid
     version = 1,
     exportSchema = false
 )
-//@TypeConverters(Converters::class)
 abstract class AsteroidDatabase : RoomDatabase() {
     abstract fun asteroidDao(): AsteroidDao
 
 
     companion object {
-        @Volatile
         private var instance: AsteroidDatabase? = null
 
         @Synchronized
