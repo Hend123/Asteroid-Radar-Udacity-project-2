@@ -91,6 +91,7 @@ class MainFragment : Fragment() {
             it?.let {
                 Log.d("test", "loading")
                 if (it) {
+
                     binding.progressBar.visibility = View.VISIBLE
                 } else {
                     binding.progressBar.visibility = View.INVISIBLE
@@ -102,7 +103,7 @@ class MainFragment : Fragment() {
 
     private fun observeAsteroidsSuccess() {
         Log.d("test","here")
-        viewModel.asteroids.observe(viewLifecycleOwner) {
+        viewModel.mediatorLiveData.observe(viewLifecycleOwner) {
             Log.d("test","asteroidsM $it")
             it?.let {
                 Log.d("test", "success ${it.size}")

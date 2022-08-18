@@ -25,6 +25,8 @@ class MainViewModel(private val asteroidRepo: AsteroidRepo) : ViewModel() {
     private val _asteroidsError = MutableLiveData("")
     val asteroidsError: LiveData<String> = _asteroidsError
     var asteroids: LiveData<List<Asteroid>> = MutableLiveData()
+    val mediatorLiveData = MediatorLiveData<List<Asteroid>>()
+
     val picToday = MutableLiveData(PictureOfDay())
 
 
@@ -71,15 +73,25 @@ class MainViewModel(private val asteroidRepo: AsteroidRepo) : ViewModel() {
     }
     fun getAsteroid(){
         asteroids =  asteroidRepo.getAsteroids()
+        mediatorLiveData.addSource(asteroidRepo.getAsteroids()
+        ) { t -> mediatorLiveData.value = t }
+
     }
     fun getAsteroidToday(){
         val dateToday = getDates()[TODAY]
         Log.d("test","dateToday $dateToday")
-        asteroids =  asteroidRepo.getAsteroidToday(dateToday!!)
+       // asteroids =  asteroidRepo.getAsteroidToday(dateToday!!)
+        mediatorLiveData.addSource(asteroidRepo.getAsteroidToday(dateToday!!)
+        ) { t -> mediatorLiveData.value = t }
+        Log.d("test","getAsteroidToday ${asteroids.value}")
+
+
     }
     fun getAsteroidsWeek(){
         val dates = getDates()
         asteroids =  asteroidRepo.getAsteroidsWeek(dates[TODAY]!!,dates[LAST_DAY]!!)
+        mediatorLiveData.addSource(asteroidRepo.getAsteroidsWeek(dates[TODAY]!!,dates[LAST_DAY]!!)
+        ) { t -> mediatorLiveData.value = t }
     }
 }
 
